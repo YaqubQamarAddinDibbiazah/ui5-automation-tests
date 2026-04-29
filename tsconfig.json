@@ -3,10 +3,7 @@
         "moduleResolution": "node",
         "module": "commonjs",
         "target": "es2022",
-        "lib": [
-            "es2022",
-            "dom"
-        ],
+        "lib": ["es2022", "dom"],
         "types": [
             "node",
             "@wdio/globals/types",
@@ -25,8 +22,5 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true
     },
-    "include": [
-        "test",
-        "wdio.conf.ts"
-    ]
+    "include": ["test", "wdio.conf.ts"]
 }

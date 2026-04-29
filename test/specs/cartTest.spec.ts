@@ -3,16 +3,15 @@
 // import StandardListItem from "sap/m/StandardListItem"
 // import Title from "sap/m/Title"
 // import ToggleButton from "sap/m/ToggleButton"
-import App from "../pageobjects/App"
-import { users } from "../data/checkoutData"
-
+import App from '../pageobjects/App';
+import { users } from '../data/checkoutData';
 
 // describe('cart actions with no POM', () =>{
 //     beforeEach(async() => {
 //         await browser.maximizeWindow()
 //         await wdi5.goTo("#/")
 //     })
-// 
+//
 //     // it('open accessories', async() => {
 //     //     let accessoriesButton = await browser.asControl<StandardListItem>({
 //     //         selector : {
@@ -72,70 +71,77 @@ import { users } from "../data/checkoutData"
 //     //     expect(desiredText).toEqual("Shopping Cart")
 //     // })
 
-    // it('find parent element and extract the child elements', async() =>{
-    //     const list = await browser.asControl<List>({
-    //         selector : {
-    //             controlType : "sap.m.List",
-    //             properties : {
-    //                 id : /categoryList$/
-    //             }
-    //         }
-    //     })
+// it('find parent element and extract the child elements', async() =>{
+//     const list = await browser.asControl<List>({
+//         selector : {
+//             controlType : "sap.m.List",
+//             properties : {
+//                 id : /categoryList$/
+//             }
+//         }
+//     })
 
-    //     let allItems = await list.getAggregation("items")
-    //     expect(allItems.length).toBeGreaterThan(0)
-    //     console.warn(`total items number = ${allItems.length}`)
+//     let allItems = await list.getAggregation("items")
+//     expect(allItems.length).toBeGreaterThan(0)
+//     console.warn(`total items number = ${allItems.length}`)
 
-    //     let categoryNames : string[] = []
-    //     for(let item of allItems){
-    //         let title = await (item as any).getProperty("title") as string
-    //         categoryNames.push(title)
-    //     }
-    //     console.warn(categoryNames)
-    //     expect(categoryNames).toContain('Accessories')
+//     let categoryNames : string[] = []
+//     for(let item of allItems){
+//         let title = await (item as any).getProperty("title") as string
+//         categoryNames.push(title)
+//     }
+//     console.warn(categoryNames)
+//     expect(categoryNames).toContain('Accessories')
 
-    // })
+// })
 // })
 
-
-
 describe('cart actions with POM', () => {
-    
     beforeEach(async () => {
-        await browser.maximizeWindow()
-        await App.home.open() 
-    })
+        await browser.maximizeWindow();
+        await App.home.open();
+    });
 
     users.forEach((data) => {
         it('full purchase cycle', async () => {
-            await App.home.searchFor(data.productToSearch)
-            let aquiredCategories = await App.home.getProductList()
-            expect(aquiredCategories.length).toBeGreaterThan(0)
-            await App.home.clickProduct(data.productToClick)
-            await App.home.addToCart()
-            await App.home.openCart()
-            let count = await App.cart.getCartItemCount()
-            expect(count).toBeGreaterThan(0)
-            await browser.pause(2000)
+            await App.home.searchFor(data.productToSearch);
+            const aquiredCategories = await App.home.getProductList();
+            expect(aquiredCategories.length).toBeGreaterThan(0);
+            await App.home.clickProduct(data.productToClick);
+            await App.home.addToCart();
+            await App.home.openCart();
+            const count = await App.cart.getCartItemCount();
+            expect(count).toBeGreaterThan(0);
+            await browser.pause(2000);
 
-            await (await App.cart.proceedButton).press()
+            await (await App.cart.proceedButton).press();
 
-            await App.checkout.selectPaymentMethodAndProceed("Credit Card")
-            await App.checkout.insertCardDetailsAndProceed(data.card.name, data.card.number, data.card.secCode, data.card.expDate)
-            await App.checkout.fillDetailsAndProceed(data.address.street, data.address.city, data.address.zip, data.address.country, data.address.note)
-            await App.checkout.selectDeliveryAndSummary(data.delivery)
-            await App.checkout.submitOrder()
+            await App.checkout.selectPaymentMethodAndProceed('Credit Card');
+            await App.checkout.insertCardDetailsAndProceed(
+                data.card.name,
+                data.card.number,
+                data.card.secCode,
+                data.card.expDate
+            );
+            await App.checkout.fillDetailsAndProceed(
+                data.address.street,
+                data.address.city,
+                data.address.zip,
+                data.address.country,
+                data.address.note
+            );
+            await App.checkout.selectDeliveryAndSummary(data.delivery);
+            await App.checkout.submitOrder();
             const finalText = await browser.asControl({
-                selector : {
-                    controlType : "sap.m.Title",
-                    properties : {
-                        text : "Order Completed"
-                    }
-                }
-            })
-            expect(finalText.getVisible).toBeTruthy()
-            await browser.pause(1000)
-    
-        })
-    })
-})
+                selector: {
+                    controlType: 'sap.m.Title',
+                    properties: {
+                        text: 'Order Completed',
+                    },
+                },
+            });
+            expect(finalText.getVisible).toBeTruthy();
+            await browser.pause(1000);
+        });
+    });
+});
