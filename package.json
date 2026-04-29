@@ -15,6 +15,7 @@
     "license": "ISC",
     "devDependencies": {
         "@eslint/js": "^10.0.1",
+        "@faker-js/faker": "github:faker-js/faker",
         "@openui5/ts-types-esm": "^1.147.1",
         "@types/node": "^25.6.0",
         "@wdio/allure-reporter": "^9.27.0",

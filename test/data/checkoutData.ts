@@ -1,3 +1,5 @@
+// import {faker} from '@faker-js/faker'
+
 export const users = [
     {
         testName: 'flat basic purchase using credit card',
